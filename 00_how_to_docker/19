@@ -1,0 +1,8 @@
+docker-machine ssh Char mkdir HOME
+
+#Needs the hello.py in the current directory
+docker-machine scp ./hello.py Char:/home/docker/HOME
+
+docker run -dt --rm --name Abathur -v /home/docker/HOME:/root -p 3000:3000 -e FLASK_APP=hello.py -w /root python:2-slim bash
+docker exec -it Abathur pip install flask
+docker exec -it -e FLASK_APP=/root/hello.py Abathur flask run -h 0.0.0.0 -p 3000
